@@ -1,2 +1,2 @@
 # video-object-detection
-Object detection in video (OpenCV)
+Object detection of videos & webcams (OpenCV)
