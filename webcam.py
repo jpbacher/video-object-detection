@@ -25,7 +25,7 @@ model = cv2.dnn.readNetFromCaffe(prototxt, caffe_model)
 
 print('*** starting video stream...')
 vs = VideoStream(src=0).start()
-time.sleep(2.4)
+time.sleep(2)
 fps = FPS().start()
 
 while True:
@@ -41,13 +41,12 @@ while True:
             idx = int(detections[0, 0, d, 1])
             box = detections[0, 0, d, 3:7] * np.array([w, h, w, h])
             x_start, y_start, x_end, y_end = box.astype('int')
-            label = f'{labels[idx]}: {confidence: 0.3f}'
+            label = f'{labels[idx]}: {confidence * 100: 0.1f}%'
             cv2.rectangle(frame, (x_start, y_start), (x_end, y_end), colors[idx], 2)
             y = y_start -15 if y_start - 15 > 15 else y_start + 15
             cv2.putText(frame, label, (x_start, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, colors[idx], 2)
     cv2.imshow('Frame', frame)
-    key = cv2.waitKey(1)
-    if key == ord('q'):
+    if cv2.waitKey(9) & 0xFF == ord('q'):
         break
     fps.update()
 fps.stop()
